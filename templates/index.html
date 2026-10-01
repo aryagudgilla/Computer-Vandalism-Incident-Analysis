@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Computer Vandalism Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+
+        <div class="logo">
+            🛡️ FOR-TRACE
+        </div>
+
+        <div class="course">
+            Cyber Forensics & Investigation
+        </div>
+
+    </header>
+
+
+    <!-- Main Container -->
+    <main>
+
+        <section class="hero">
+
+            <div>
+                <p class="tag">DIGITAL FORENSICS</p>
+
+                <h1>
+                    Computer Vandalism<br>
+                    Incident Analysis
+                </h1>
+
+                <p class="description">
+                    Investigate unauthorized system modifications,
+                    analyze digital evidence and identify suspicious
+                    activity using forensic file analysis.
+                </p>
+            </div>
+
+            <div class="shield">
+                🔐
+            </div>
+
+        </section>
+
+
+        <!-- Analysis Card -->
+        <section class="analysis-card">
+
+            <h2>Evidence Analysis</h2>
+
+            <p class="subtext">
+                Upload a file collected during the investigation.
+            </p>
+
+
+            {% if error %}
+
+            <div class="error">
+                ⚠️ {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        📁
+                    </div>
+
+                    <h3>Select Evidence File</h3>
+
+                    <p>
+                        Upload a file for forensic analysis
+                    </p>
+
+                    <input type="file"
+                           name="evidence_file"
+                           id="evidence_file"
+                           required>
+
+                    <label for="evidence_file"
+                           class="choose-btn">
+                        Choose File
+                    </label>
+
+                    <span id="file-name">
+                        No file selected
+                    </span>
+
+                </div>
+
+
+                <button type="submit"
+                        class="analyze-btn">
+
+                    🔍 ANALYZE EVIDENCE
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        {% if result %}
+
+        <!-- Results -->
+        <section class="results">
+
+            <div class="result-heading">
+
+                <div>
+                    <p class="tag">FORENSIC REPORT</p>
+
+                    <h2>Investigation Result</h2>
+                </div>
+
+                <div class="risk {{ result.risk|lower }}">
+
+                    {{ result.risk }} RISK
+
+                </div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-item">
+
+                    <span>Evidence File</span>
+
+                    <strong>
+                        {{ result.filename }}
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>File Type</span>
+
+                    <strong>
+                        {{ result.type }}
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>File Size</span>
+
+                    <strong>
+                        {{ result.size }} KB
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>Last Modified</span>
+
+                    <strong>
+                        {{ result.modified }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hash -->
+            <div class="hash-box">
+
+                <span>SHA-256 EVIDENCE HASH</span>
+
+                <code>
+                    {{ result.hash }}
+                </code>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="status-box">
+
+                {% if result.status == "SUSPICIOUS" %}
+
+                <div class="status-icon">
+                    ⚠️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Suspicious Evidence Detected
+                    </h3>
+
+                    <p>
+                        The uploaded file belongs to a file type
+                        commonly associated with executable or
+                        script-based system modifications.
+                        Further investigation is recommended.
+                    </p>
+
+                </div>
+
+                {% else %}
+
+                <div class="status-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <h3>
+                        Evidence Successfully Analyzed
+                    </h3>
+
+                    <p>
+                        The file metadata and SHA-256 hash have
+                        been successfully collected for forensic
+                        investigation.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Investigation Summary -->
+            <div class="summary">
+
+                <h3>Investigation Summary</h3>
+
+                <div class="timeline">
+
+                    <div>
+                        <b>01</b>
+                        Evidence Collected
+                    </div>
+
+                    <div>
+                        <b>02</b>
+                        File Metadata Extracted
+                    </div>
+
+                    <div>
+                        <b>03</b>
+                        SHA-256 Hash Generated
+                    </div>
+
+                    <div>
+                        <b>04</b>
+                        Risk Level Assessed
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+
+        <!-- Footer Information -->
+        <section class="academic">
+
+            <div>
+                <span>COURSE</span>
+                <strong>
+                    Cyber Forensics and Investigation
+                </strong>
+            </div>
+
+            <div>
+                <span>COURSE CODE</span>
+                <strong>N-PECCM704T</strong>
+            </div>
+
+            <div>
+                <span>SEMESTER</span>
+                <strong>IV / VII</strong>
+            </div>
+
+            <div>
+                <span>COURSE IN-CHARGE</span>
+                <strong>Ms. Sweta Bokade</strong>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        Computer Vandalism Incident Analysis
+        • Digital Evidence Investigation System
+
+    </footer>
+
+
+    <script>
+
+        const fileInput =
+            document.getElementById("evidence_file");
+
+        const fileName =
+            document.getElementById("file-name");
+
+        fileInput.addEventListener("change", function () {
+
+            if (this.files.length > 0) {
+
+                fileName.textContent =
+                    this.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    "No file selected";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
